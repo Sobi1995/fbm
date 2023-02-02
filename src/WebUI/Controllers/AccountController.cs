@@ -2,7 +2,6 @@
 using Application.Commands.Auth;
 using Application.Common.Models;
 using Azure;
-using CleanArchitecture.Application.Auth.Dto;
 using CleanArchitecture.Application.WeatherForecasts.Queries.GetWeatherForecasts;
 using CleanArchitecture.WebUI.Controllers;
 using MediatR;
@@ -14,15 +13,11 @@ public class AccountController :  ApiControllerBase
 {
 
     [HttpPost]
-    public async Task<IResponse<Unit>> Register(RegisterUserRequest registerUserRequest, CancellationToken cancellationToken)
+    public async Task<ActionResult> Register(RegisterUserCommand registerUserCommand, CancellationToken cancellationToken)
     {
-       var result= await Mediator.Send(new RegisterUserCommand(registerUserRequest), cancellationToken);
-        return result;
+       var result= await Mediator.Send(registerUserCommand, cancellationToken);
+        return Ok( result);
      
     }
-    [HttpGet]
-    public async Task<IEnumerable<WeatherForecast>> Get()
-    {
-        return await Mediator.Send(new GetWeatherForecastsQuery());
-    }
+ 
 }

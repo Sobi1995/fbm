@@ -5,6 +5,8 @@ namespace CleanArchitecture.Application.Common.Interfaces;
 public interface IIdentityService
 {
     Task<string?> GetUserNameAsync(Guid userId);
+    Task<bool> CheckIfUserExist(string userName);
+    Task<bool> CheckIfUserExist(Guid id);
 
     Task<bool> IsInRoleAsync(Guid userId, string role);
 
