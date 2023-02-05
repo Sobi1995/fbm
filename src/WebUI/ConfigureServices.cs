@@ -1,10 +1,9 @@
 ﻿using CleanArchitecture.Application.Common.Interfaces;
 using CleanArchitecture.Infrastructure.Persistence;
 using CleanArchitecture.WebUI.Filters;
-using CleanArchitecture.WebUI.Services;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
- 
+using WebUI.Model.Services;
 
 namespace Microsoft.Extensions.DependencyInjection;
 

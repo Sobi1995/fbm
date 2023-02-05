@@ -78,4 +78,12 @@ public class IdentityService : IIdentityService
 
         return result.ToApplicationResult();
     }
+
+    public async Task<bool> CheckIfUserExist(string userName) 
+        =>await _userManager.Users.AnyAsync(x => x.UserName == userName);
+     
+   
+
+    public async Task<bool> CheckIfUserExist(Guid id)
+     => await _userManager.Users.AnyAsync(x => x.Id == id);
 }

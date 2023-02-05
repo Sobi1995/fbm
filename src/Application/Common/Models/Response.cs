@@ -2,51 +2,70 @@ using System.Collections.Generic;
 
 namespace Application.Common.Models;
 
-public interface IResponse<T>
+public interface IServiceResult<TData>
 {
-    T Data { get; }
-    List<string> Errors { get; }
-    bool Succeeded { get; }
+    public TData Data { get; set; }
+    public string ErrorMessage { get; set; }
+    public bool IsSuccess { get; set; }
+
+    public IServiceResult<TData> Ok(TData data);
+    public IServiceResult<TData> Failure(string errorMessage);
 }
-    
-public static class Response
+public interface IServiceResult
 {
-    public static IResponse<T> Fail<T>(string error)
-        => new Response<T>(error, false);
-        
-    public static IResponse<T> Fail<T>(List<string> errors)
-        => new Response<T>(errors, false);
-        
-    public static IResponse<T> Success<T>(T data)
-        => new Response<T>(data,true);
+    public string ErrorMessage { get; set; }
+    public bool IsSuccess { get; set; }
+
+    public IServiceResult Ok();
+    public IServiceResult Failure(string errorMessage);
 }
 
-public class Response<T> : IResponse<T>
-{
 
-    public Response(string error, bool succeeded)
+public class ServiceResult<TData> : IServiceResult<TData>
+{
+    public ServiceResult()
     {
-        Errors = new List<string>
-        {
-            error
-        };
-        Succeeded = succeeded;
     }
-        
-    public Response(T data,bool succeeded)
+
+    public ServiceResult(TData data,string error =default!)
     {
         Data = data;
-        Errors = new List<string>();
-        Succeeded = succeeded;
+        ErrorMessage = error;
+
     }
-        
-    public Response(List<string> errors, bool succeeded)
+    public TData Data { get; set; }
+    public string ErrorMessage { get; set; }
+    public bool IsSuccess { get; set; }
+
+    public IServiceResult<TData> Failure(string errorMessage)
     {
-        Errors = errors;
-        Succeeded = succeeded;
+        ErrorMessage = errorMessage;
+        IsSuccess = false;
+        return this;
     }
 
-    public T Data { get; } = default!;
-    public List<string> Errors { get; }
-    public bool Succeeded { get; }
+    public IServiceResult<TData> Ok(TData data)
+    {
+        Data = data;
+        IsSuccess = true;
+        return this;
+    }
+}
+public class ServiceResult : IServiceResult
+{
+    public string ErrorMessage { get; set; }
+    public bool IsSuccess { get; set; }
+
+    public IServiceResult Failure(string errorMessage)
+    {
+        ErrorMessage = errorMessage;
+        IsSuccess = false;
+        return this;
+    }
+
+    public IServiceResult Ok()
+    {
+        IsSuccess = true;
+        return this;
+    }
 }

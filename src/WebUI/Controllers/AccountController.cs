@@ -13,7 +13,7 @@ public class AccountController :  ApiControllerBase
 {
 
     [HttpPost]
-    public async Task<ActionResult> Register(RegisterUserCommand registerUserCommand, CancellationToken cancellationToken)
+    public async Task<OkObjectResult> Register(RegisterUserCommand registerUserCommand, CancellationToken cancellationToken)
     {
        var result= await Mediator.Send(registerUserCommand, cancellationToken);
         return Ok( result);
