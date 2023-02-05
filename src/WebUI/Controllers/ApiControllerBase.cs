@@ -1,12 +1,13 @@
 ﻿using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
+using WebUI.Model.Attribute;
 //using WebUI.Model.Attribute;
 
 namespace CleanArchitecture.WebUI.Controllers;
 
 [ApiController]
-//[ResponseAttribute]
+ [Response]
 [Route("api/[controller]")]
 public abstract class ApiControllerBase : ControllerBase
 {
