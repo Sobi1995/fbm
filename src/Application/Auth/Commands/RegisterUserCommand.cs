@@ -1,4 +1,5 @@
 ﻿
+using System.Net;
 using Application.Common.Models;
 using CleanArchitecture.Application.Common.Interfaces;
 using MediatR;
@@ -23,9 +24,10 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand,IR
     {
         var checkUserExist =await _identityService.CheckIfUserExist(request.UserName);
         if (checkUserExist)
-            return new Response<Guid>(System.Net.HttpStatusCode.NotFound).Failure("This username is already taken");
+            return new Response<Guid>(HttpStatusCode.InternalServerError).Failure("This username is already taken");
         var createResult = await _identityService.CreateUserAsync(request.UserName, request.Password);
-        //_forbid.False(createResult.Succeeded, RegisterException.Instance);
+       if(!createResult.Result.Succeeded)
+            return new Response<Guid>(HttpStatusCode.InternalServerError).Failure(string.Join(System.Environment.NewLine, createResult.Result.Errors));
         return new Response<Guid>().Ok(createResult.UserId);
     }
 }

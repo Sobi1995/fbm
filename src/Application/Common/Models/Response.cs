@@ -30,8 +30,9 @@ public class Response<TData> : IResponse<TData>
 
     }
 
-    public Response(TData data, string error = default!)
+    public Response(TData data, string error = default!, HttpStatusCode httpStatusCode = HttpStatusCode.OK)
     {
+        HttpStatusCode = httpStatusCode;
         Data = data;
         ErrorMessage = error;
 
