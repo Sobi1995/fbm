@@ -1,9 +1,7 @@
 ﻿using System.Threading;
 using Application.Commands.Auth;
 using Application.Common.Models;
-using Azure;
-using CleanArchitecture.Application.WeatherForecasts.Queries.GetWeatherForecasts;
-using CleanArchitecture.WebUI.Controllers;
+using CleanArchitecture.Application.Auth.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -19,5 +17,13 @@ public class AccountController :  ApiControllerBase
         return Ok( result);
      
     }
- 
+
+    [HttpGet]
+    public async Task<ActionResult> Login(LoginUserCommand loginUserCommand, CancellationToken cancellationToken)
+    {
+        var result = await Mediator.Send(loginUserCommand, cancellationToken);
+        return Ok(result);
+
+    }
+
 }

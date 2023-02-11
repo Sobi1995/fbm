@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Auth\Dto\" />
       <Folder Include="Common\Response\" />
     </ItemGroup>
 

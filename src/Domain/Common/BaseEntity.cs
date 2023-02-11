@@ -1,10 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CleanArchitecture.Domain.Common;
 
 public abstract class BaseEntity
 {
-    public int Id { get; set; }
+    [Key]
+    public Guid Id { 
+        get 
+        {
+            return Guid.NewGuid();
+        
+        }
+        set
+        {
+
+
+        }
+    }
+ 
 
     private readonly List<BaseEvent> _domainEvents = new();
 

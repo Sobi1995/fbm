@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Application.Common.Interfaces;
+﻿using Azure.Core;
+using CleanArchitecture.Application.Common.Interfaces;
 using CleanArchitecture.Application.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,15 +12,18 @@ public class IdentityService : IIdentityService
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserClaimsPrincipalFactory<ApplicationUser> _userClaimsPrincipalFactory;
     private readonly IAuthorizationService _authorizationService;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
     public IdentityService(
         UserManager<ApplicationUser> userManager,
         IUserClaimsPrincipalFactory<ApplicationUser> userClaimsPrincipalFactory,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        SignInManager<ApplicationUser> signInManager)
     {
         _userManager = userManager;
         _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
         _authorizationService = authorizationService;
+        _signInManager = signInManager;
     }
 
     public async Task<string?> GetUserNameAsync(Guid userId)
@@ -86,4 +90,10 @@ public class IdentityService : IIdentityService
 
     public async Task<bool> CheckIfUserExist(Guid id)
      => await _userManager.Users.AnyAsync(x => x.Id == id);
+
+
+    public async Task<bool> PasswordSignInAsync(Guid id)
+    {
+        await _signInManager.PasswordSignInAsync(user, request.LoginUserRequest.Password, false, false);
+    }
 }

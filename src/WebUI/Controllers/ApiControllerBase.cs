@@ -7,7 +7,7 @@ using WebUI.Model.Attribute;
 namespace CleanArchitecture.WebUI.Controllers;
 
 [ApiController]
- [Response]
+[Response]
 [Route("api/[controller]")]
 public abstract class ApiControllerBase : ControllerBase
 {

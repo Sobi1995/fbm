@@ -5,7 +5,7 @@ namespace CleanArchitecture.Application.TodoItems.Queries.GetTodoItemsWithPagina
 
 public class TodoItemBriefDto : IMapFrom<TodoItem>
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
     public int ListId { get; set; }
 
