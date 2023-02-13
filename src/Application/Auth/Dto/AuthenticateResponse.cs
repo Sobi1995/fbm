@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace CleanArchitecture.Application.Auth.Dto;
 public class AuthenticateResponse
 {
-    public string AccessToken { get; set; }
+    public string AccessToken { get; set; } = default!;
 
-    public string RefreshToken { get; set; }
+    public string RefreshToken { get; set; } = default!;
 }

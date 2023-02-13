@@ -21,6 +21,7 @@ public class AccountController :  ApiControllerBase
     [HttpGet]
     public async Task<ActionResult> Login(LoginUserCommand loginUserCommand, CancellationToken cancellationToken)
     {
+         
         var result = await Mediator.Send(loginUserCommand, cancellationToken);
         return Ok(result);
 

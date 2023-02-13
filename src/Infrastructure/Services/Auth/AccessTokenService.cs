@@ -10,10 +10,10 @@ namespace Infrastructure.Services;
 public class AccessTokenService : IAccessTokenService
 {
     private readonly ITokenGenerator _tokenGenerator;
-    private readonly JwtSettings _jwtSettings;
+    //private readonly JwtSettings _jwtSettings;
 
-    public AccessTokenService(ITokenGenerator tokenGenerator, JwtSettings jwtSettings) =>
-        (_tokenGenerator, _jwtSettings) = (tokenGenerator, jwtSettings);
+    public AccessTokenService(ITokenGenerator tokenGenerator ) =>
+        (_tokenGenerator) = (tokenGenerator);
 
     public string Generate(UserClaimsModel user)
     {
@@ -23,7 +23,7 @@ public class AccessTokenService : IAccessTokenService
             //new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Name, user.UserName),
         };
-        return _tokenGenerator.Generate(_jwtSettings.AccessTokenSecret, _jwtSettings.Issuer, _jwtSettings.Audience,
-            _jwtSettings.AccessTokenExpirationMinutes, claims);
+        return _tokenGenerator.Generate("_jwtSettings.AccessTokenSecret","_jwtSettings.Issuer"," _jwtSettings.Audience",
+            5, claims);
     }
 }

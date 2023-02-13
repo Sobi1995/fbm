@@ -1,6 +1,10 @@
-﻿using Azure.Core;
+﻿using System.Net;
+using Application.Common.Models;
+using Azure.Core;
+using CleanArchitecture.Application.Auth.Dto;
 using CleanArchitecture.Application.Common.Interfaces;
 using CleanArchitecture.Application.Common.Models;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -92,8 +96,17 @@ public class IdentityService : IIdentityService
      => await _userManager.Users.AnyAsync(x => x.Id == id);
 
 
-    public async Task<bool> PasswordSignInAsync(Guid id)
+    public async Task<IResponse> PasswordSignInAsync(string userName,  string password)
     {
-        await _signInManager.PasswordSignInAsync(user, request.LoginUserRequest.Password, false, false);
+        var user = await _userManager.FindByNameAsync(userName);
+
+        if (user is null)
+            return new Response(HttpStatusCode.NotFound).Failure("Notfound the username");
+
+      var result=  await _signInManager.PasswordSignInAsync(user, password, false, false);
+        if(!result.Succeeded)
+            return new Response(HttpStatusCode.InternalServerError).Failure("");
+
+        return new Response().Ok();
     }
 }

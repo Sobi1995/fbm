@@ -1,9 +1,11 @@
 ﻿using CleanArchitecture.Application.Common.Interfaces;
+using CleanArchitecture.Application.Common.Interfaces.Auth;
 using CleanArchitecture.Infrastructure.Files;
 using CleanArchitecture.Infrastructure.Identity;
 using CleanArchitecture.Infrastructure.Persistence;
 using CleanArchitecture.Infrastructure.Persistence.Interceptors;
 using CleanArchitecture.Infrastructure.Services;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -34,7 +36,7 @@ public static class ConfigureServices
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
-       services.AddScoped<ApplicationDbContextInitialiser>();
+        services.AddScoped<ApplicationDbContextInitialiser>();
 
         services.AddIdentity<ApplicationUser, Role>()
                     .AddDefaultTokenProviders()
@@ -44,6 +46,18 @@ public static class ConfigureServices
         services.AddTransient<IDateTime, DateTimeService>();
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
+
+
+        services.AddScoped<IAuthenticateService, AuthenticateService>();
+        services.AddScoped<IAccessTokenService, AccessTokenService>();
+        services.AddScoped<ITokenGenerator, TokenGenerator>();
+        services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+
+        //services.AddScoped<IAuthenticateService,  AuthenticateService>();
+
+
+        //services.AddScoped<IRefreshTokenValidator,  RefreshTokenValidator>();
+
 
 
 

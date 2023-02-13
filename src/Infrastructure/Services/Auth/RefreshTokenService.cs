@@ -9,12 +9,12 @@ namespace Infrastructure.Services;
 public class RefreshTokenService : IRefreshTokenService
 {
     private readonly ITokenGenerator _tokenGenerator;
-    private readonly JwtSettings _jwtSettings;
+ 
 
-    public RefreshTokenService(ITokenGenerator tokenGenerator, JwtSettings jwtSettings) =>
-        (_tokenGenerator, _jwtSettings) = (tokenGenerator, jwtSettings);
+    public RefreshTokenService(ITokenGenerator tokenGenerator ) =>
+        (_tokenGenerator) = (tokenGenerator);
 
-    public string Generate(UserClaimsModel user) => _tokenGenerator.Generate(_jwtSettings.RefreshTokenSecret,
-        _jwtSettings.Issuer, _jwtSettings.Audience,
-        _jwtSettings.RefreshTokenExpirationMinutes);
+    public string Generate(UserClaimsModel user) => _tokenGenerator.Generate("_jwtSettings.RefreshTokenSecret",
+        "_jwtSettings.Issuer", "_jwtSettings.Audience",
+        5);
 }
